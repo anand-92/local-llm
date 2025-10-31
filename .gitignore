@@ -19,6 +19,7 @@ pnpm-debug.log*
 .env
 .env.local
 .env.*.local
+.tunnel-url
 # Logs
 logs
 *.log
