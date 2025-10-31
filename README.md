@@ -22,3 +22,25 @@ Open `http://localhost:5173`.
 
 ## Credits / References
 - LM Studio compatible OpenAI-style endpoints: `/v1/models`, `/v1/chat/completions`.
+
+## Railway Deploy (Static)
+
+1) Create a public URL for your local LM Studio (Quick Tunnel)
+
+Use Cloudflare quick tunnel (no account required):
+
+```powershell
+cloudflared tunnel --url http://127.0.0.1:1234
+```
+Grab the `https://*.trycloudflare.com` URL from the output.
+
+2) Deploy to Railway as a Static service
+
+- Repo: `anand-92/local-llm` (this folder: `web-chat`)
+- Railway settings:
+  - Base directory: `web-chat`
+  - Build command: `npm ci && npm run build`
+  - Output directory: `dist`
+  - Env var: `VITE_API_BASE=https://<your-trycloudflare-url>`
+
+`railway.json` is included for static config.

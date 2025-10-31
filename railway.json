@@ -1,0 +1,12 @@
+{
+	"$schema": "https://railway.app/railway.schema.json",
+	"services": [
+		{
+			"name": "web-chat",
+			"type": "static",
+			"rootDir": ".",
+			"staticBuildCommand": "npm ci && npm run build",
+			"staticPublishPath": "dist"
+		}
+	]
+}

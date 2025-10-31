@@ -1,5 +1,7 @@
+const API_BASE = (import.meta as any).env?.VITE_API_BASE || '/api';
+
 export async function fetchModels(): Promise<string[]> {
-	const res = await fetch('/api/v1/models');
+	const res = await fetch(`${API_BASE}/v1/models`);
 	if (!res.ok) throw new Error('Failed to fetch models');
 	const data = await res.json();
 	// OpenAI-style response: { data: [{ id: string }] }
@@ -18,7 +20,7 @@ export async function streamChat(args: {
 	signal?: AbortSignal;
 	onToken: (token: string) => void;
 }) {
-	const res = await fetch('/api/v1/chat/completions', {
+	const res = await fetch(`${API_BASE}/v1/chat/completions`, {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify({
