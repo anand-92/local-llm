@@ -9,7 +9,6 @@ type ChatMessage = {
 };
 
 export default function App() {
-	const [models, setModels] = useState<string[]>([]);
 	const [selectedModel, setSelectedModel] = useState<string>('');
 	const [messages, setMessages] = useState<ChatMessage[]>([]);
 	const [input, setInput] = useState('');
@@ -21,7 +20,6 @@ export default function App() {
 	useEffect(() => {
 		fetchModels()
 			.then((ids) => {
-				setModels(ids);
 				if (!selectedModel && ids.length > 0) setSelectedModel(ids[0]);
 				setError('');
 			})
@@ -100,28 +98,11 @@ export default function App() {
 		<div className="app">
 			<header className="app__header">
 				<h1>Local LLM Chat</h1>
-				<div className="header__controls">
-					<select
-						value={selectedModel}
-						onChange={(e) => setSelectedModel(e.target.value)}
-						disabled={models.length === 0}
-					>
-						{models.length === 0 ? (
-							<option>Loading models...</option>
-						) : (
-							models.map((m) => (
-								<option key={m} value={m}>
-									{m}
-								</option>
-							))
-						)}
-					</select>
-					{isStreaming && (
-						<button className="btn btn--danger" onClick={handleStop}>
-							⏹ Stop
-						</button>
-					)}
-				</div>
+				{isStreaming && (
+					<button className="btn btn--danger" onClick={handleStop}>
+						⏹ Stop
+					</button>
+				)}
 			</header>
 
 			<main className="chat">
