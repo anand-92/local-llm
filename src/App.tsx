@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { fetchModels, streamChat } from './api';
 
 type ChatMessage = {
@@ -34,7 +34,7 @@ export default function App() {
 		if (!canSend) return;
 		const userText = input.trim();
 		setInput('');
-		const nextMessages = [...messages, { role: 'user', content: userText }];
+		const nextMessages: ChatMessage[] = [...messages, { role: 'user' as const, content: userText }];
 		setMessages(nextMessages);
 
 		setIsStreaming(true);
@@ -42,7 +42,7 @@ export default function App() {
 		abortRef.current = new AbortController();
 
 		let assistantSoFar = '';
-		setMessages((prev) => [...prev, { role: 'assistant', content: '' }]);
+		setMessages((prev) => [...prev, { role: 'assistant' as const, content: '' }]);
 
 		try {
 			await streamChat({
@@ -53,7 +53,7 @@ export default function App() {
 					assistantSoFar += token;
 					setMessages((prev) => {
 						const copy = [...prev];
-						copy[copy.length - 1] = { role: 'assistant', content: assistantSoFar };
+						copy[copy.length - 1] = { role: 'assistant' as const, content: assistantSoFar };
 						return copy;
 					});
 				},
