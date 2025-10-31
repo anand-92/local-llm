@@ -1,7 +1,15 @@
 const API_BASE = (import.meta as any).env?.VITE_API_BASE || '/api';
 
+// Headers to bypass localtunnel verification page
+const TUNNEL_HEADERS = {
+	'bypass-tunnel-reminder': 'true',
+	'User-Agent': 'CustomClient/1.0'
+};
+
 export async function fetchModels(): Promise<string[]> {
-	const res = await fetch(`${API_BASE}/v1/models`);
+	const res = await fetch(`${API_BASE}/v1/models`, {
+		headers: TUNNEL_HEADERS
+	});
 	if (!res.ok) throw new Error('Failed to fetch models');
 	const data = await res.json();
 	// OpenAI-style response: { data: [{ id: string }] }
@@ -22,7 +30,10 @@ export async function streamChat(args: {
 }) {
 	const res = await fetch(`${API_BASE}/v1/chat/completions`, {
 		method: 'POST',
-		headers: { 'Content-Type': 'application/json' },
+		headers: {
+			'Content-Type': 'application/json',
+			...TUNNEL_HEADERS
+		},
 		body: JSON.stringify({
 			model: args.model,
 			messages: args.messages,
