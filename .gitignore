@@ -9,6 +9,8 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+cloudflared-output.log
+cloudflared-error.log
 
 # Editor
 .DS_Store

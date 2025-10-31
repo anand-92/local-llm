@@ -7,20 +7,20 @@ const localtunnel = require('localtunnel');
   const tunnel = await localtunnel({ port, host: 'https://localtunnel.me' });
   const url = tunnel.url;
   const outFile = path.join(process.cwd(), '.tunnel-url');
-  
+
   try {
     fs.writeFileSync(outFile, url, 'utf8');
     console.log('\n========================================');
     console.log('🚇 Localtunnel Active');
     console.log('========================================');
     console.log(`URL: ${url}`);
-    
+
     // Show password if available (used for IP verification)
     if (tunnel.password) {
       console.log(`\n⚠️  PASSWORD REQUIRED: ${tunnel.password}`);
       console.log('👉 Visit the URL above and enter this password');
     }
-    
+
     console.log('\n💡 Keep this process running to keep the tunnel alive.');
     console.log('========================================\n');
   } catch (e) {
